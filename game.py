@@ -6,10 +6,9 @@ class Board:
     insert comment
     """
 
-    def __init__(self, width=5, height=5, unused_cells=[], live_cells=[]):
+    def __init__(self, width=5, height=5, live_cells=[]):
         self.width = width
         self.height = height
-        self.unusedCells = unused_cells
         self.liveCells = live_cells
 
     def is_live(self, posn):
@@ -17,26 +16,18 @@ class Board:
 
     def is_dead(self, posn):
         return posn not in self.liveCells \
-            and posn not in self.unusedCells \
             and posn[0] in range(0, self.width) \
             and posn[1] in range(0, self.height)
 
 
-    def is_unused(self, posn):
-        return posn in self.unusedCells
-
     def kill(self, posn):
         if posn in self.liveCells:
             self.liveCells.remove(posn)
-        elif posn in self.unusedCells:
-            raise Exception('Unable to kill cell that is unused')
         else:
             raise Exception('Unable to kill cell that isn\'t live')
 
     def revive(self, posn):
-        if posn in self.unusedCells:
-            raise Exception('Unable to revive cell that is unused')
-        elif posn in self.liveCells:
+        if posn in self.liveCells:
             raise Exception('Cannot revive cell that is already alive.')
         else:
             self.liveCells.append(posn)
@@ -57,8 +48,6 @@ class Board:
             for col in range(0, self.width):
                 if (col, row) in self.liveCells:
                     output += "O"
-                elif (col, row) in self.unusedCells:
-                    output += " "
                 else:
                     output += "."
                 output += " "
@@ -82,22 +71,20 @@ class Game:
         # alter the board with each tick as a new generation
         for tick in range(0, self.play_time):
             # creates a new board for the next generation
-            next_board = Board(self.board.width, self.board.height, self.board.unusedCells, [])
+            next_board = Board(self.board.width, self.board.height, [])
             # iterating over each cell of the current generation
             for row in range(0, self.board.height):
                 for col in range(0, self.board.width):
                     posn = (col, row)
-                    # if the cell is in play
-                    if not self.board.is_unused(posn):
-                        neighbors = self.board.get_neighbors(posn)
-                        live_neighbor_count = len(list(filter(lambda pos: self.board.is_live(pos), neighbors)))
+                    neighbors = self.board.get_neighbors(posn)
+                    live_neighbor_count = len(list(filter(lambda pos: self.board.is_live(pos), neighbors)))
 
-                        # revives cells which are live and not in solitude or in overpopulation
-                        if self.board.is_live(posn) and (live_neighbor_count == 2 or live_neighbor_count == 3):
-                            next_board.revive(posn)
-                        # revives empty cells with 3 live neighbors
-                        elif self.board.is_dead(posn) and live_neighbor_count == 3:
-                            next_board.revive(posn)
+                    # revives cells which are live and not in solitude or in overpopulation
+                    if self.board.is_live(posn) and (live_neighbor_count == 2 or live_neighbor_count == 3):
+                        next_board.revive(posn)
+                    # revives empty cells with 3 live neighbors
+                    elif self.board.is_dead(posn) and live_neighbor_count == 3:
+                        next_board.revive(posn)
 
             print('Generation', tick + 1, ':')
             next_board.render()
