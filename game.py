@@ -60,7 +60,7 @@ class Board:
                 elif (col, row) in self.unusedCells:
                     output += " "
                 else:
-                    output += "X"
+                    output += "."
                 output += " "
             output += '\n'
 
@@ -71,24 +71,41 @@ class Game:
     """
     insert comment
     """
-    def __init__(self, board: Board, playTime=20):
+    def __init__(self, board: Board, play_time=20):
         self.board = board
-        self.playTime = playTime
+        self.play_time = play_time
 
     def play(self):
+        print('Generation 0:')
         self.board.render()
-        for tick in range(0, self.playTime):
+
+        # alter the board with each tick as a new generation
+        for tick in range(0, self.play_time):
+            # creates a new board for the next generation
             next_board = Board(self.board.width, self.board.height, self.board.unusedCells, [])
+            # iterating over each cell of the current generation
             for row in range(0, self.board.height):
                 for col in range(0, self.board.width):
                     posn = (col, row)
-                    neighbors = self.board.get_neighbors(posn)
-                    live_neighbor_count = len(list(filter(lambda pos: self.board.is_live(pos), neighbors)))
-                    if self.board.is_live(posn) and (live_neighbor_count == 2 or live_neighbor_count == 3):
-                        next_board.revive(posn)
-                    # revives empty cells with 3 live neighbors
-                    elif self.board.is_dead(posn) and live_neighbor_count == 3:
-                        next_board.revive(posn)
+                    # if the cell is in play
+                    if not self.board.is_unused(posn):
+                        neighbors = self.board.get_neighbors(posn)
+                        live_neighbor_count = len(list(filter(lambda pos: self.board.is_live(pos), neighbors)))
+
+                        # revives cells which are live and not in solitude or in overpopulation
+                        if self.board.is_live(posn) and (live_neighbor_count == 2 or live_neighbor_count == 3):
+                            next_board.revive(posn)
+                        # revives empty cells with 3 live neighbors
+                        elif self.board.is_dead(posn) and live_neighbor_count == 3:
+                            next_board.revive(posn)
+
+            print('Generation', tick + 1, ':')
             next_board.render()
             self.board = next_board
             time.sleep(1)
+
+        # return and print the final score (number of live cells after play_time)
+        score = len(self.board.liveCells)
+        print('Number of live cells after', self.play_time, 'generations :', score)
+        return score
+
