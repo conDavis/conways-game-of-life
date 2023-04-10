@@ -6,7 +6,7 @@ class Board:
     insert comment
     """
 
-    def __init__(self, width, height, unused_cells=[], live_cells=[]):
+    def __init__(self, width=5, height=5, unused_cells=[], live_cells=[]):
         self.width = width
         self.height = height
         self.unusedCells = unused_cells
