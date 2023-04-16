@@ -15,6 +15,17 @@ class SimpleAgent(Agent):
 
     def alter_board(self, board: Board):
         """Make alterations to the given game of life board to elongate life based on the heuristic."""
-        if board.is_dead((0, 0)):
-            board.revive((0, 0))
-        return board
+        highest_heuristic = 0
+        best_board = board
+        for x in range(board.width):
+            for y in range(board.height):
+                new_board = board.copy()
+                if board.is_dead((x, y)):
+                    new_board.revive((x, y))
+                elif board.is_live((x, y)):
+                    new_board.kill((x, y))
+                heuristic_val = self.heuristic.evaluate(new_board)
+                if heuristic_val >= highest_heuristic:
+                    best_board = new_board
+                    highest_heuristic = heuristic_val
+        return best_board

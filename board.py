@@ -16,7 +16,6 @@ class Board:
             and posn[0] in range(0, self.width) \
             and posn[1] in range(0, self.height)
 
-
     def kill(self, posn):
         if posn in self.liveCells:
             self.liveCells.remove(posn)
@@ -51,3 +50,6 @@ class Board:
             output += '\n'
 
         print(output)
+
+    def copy(self):
+        return Board(self.width, self.height, self.liveCells.copy())
