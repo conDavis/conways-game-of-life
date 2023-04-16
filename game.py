@@ -16,8 +16,7 @@ class Game:
         for row in range(0, self.board.height):
             for col in range(0, self.board.width):
                 posn = (col, row)
-                neighbors = self.board.get_neighbors(posn)
-                live_neighbor_count = len(list(filter(lambda pos: self.board.is_live(pos), neighbors)))
+                live_neighbor_count = len(self.board.get_live_neighbors(posn))
 
                 # revives cells which are live and not in solitude or in overpopulation
                 if self.board.is_live(posn) and (live_neighbor_count == 2 or live_neighbor_count == 3):

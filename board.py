@@ -28,8 +28,8 @@ class Board:
         else:
             self.liveCells.append(posn)
 
-    def get_neighbors(self, posn):
-        return [(posn[0] - 1, posn[1]),
+    def get_live_neighbors(self, posn):
+        neighbors = [(posn[0] - 1, posn[1]),
                 (posn[0], posn[1] - 1),
                 (posn[0] - 1, posn[1] - 1),
                 (posn[0] + 1, posn[1]),
@@ -37,6 +37,7 @@ class Board:
                 (posn[0] + 1, posn[1] + 1),
                 (posn[0] - 1, posn[1] + 1),
                 (posn[0] + 1, posn[1] - 1)]
+        return list(filter(lambda neighbor: self.is_live(neighbor), neighbors))
 
     def render(self):
         output = ''
