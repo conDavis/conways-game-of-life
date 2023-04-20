@@ -8,15 +8,17 @@ if __name__ == '__main__':
     board = Board(5, 5, [(2, 0), (2, 1), (2, 2), (2, 3)])
     game = Game(board.copy(), 10)
     #game.play_without_agent()
+
+    print('\nRandom Heuristic Play:\n')
     game.play_with_agent(SimpleAgent(RandomHeuristic()))
 
-    game = Game(board.copy(), 10)
+    print('\nMax Neighbors Heuristic Play:\n')
     game.play_with_agent(SimpleAgent(MaxNeighborsHeuristic()))
 
-    game = Game(board.copy(), 10)
+    print('\nMin Neighbors Heuristic Play:\n')
     game.play_with_agent(SimpleAgent(MinNeighborsHeuristic()))
 
-    game = Game(board.copy(), 10)
+    print('\nIdeal Neighbors Heuristic Play:\n')
     game.play_with_agent(SimpleAgent(IdealNeighborsHeuristic()))
 
 

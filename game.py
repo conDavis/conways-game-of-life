@@ -33,6 +33,9 @@ class Game:
 
         print('Generation 0:')
         self.board.render()
+        # preserving initial board
+        init_board = self.board.copy()
+
         # alter the board with each tick as a new generation
         for tick in range(0, self.play_time):
             self.produce_next_gen()
@@ -43,12 +46,15 @@ class Game:
         # return and print the final score (number of live cells after play_time)
         score = len(self.board.liveCells)
         print('Number of live cells after', self.play_time, 'generations :', score)
+        self.board = init_board
         return score
 
     def play_with_agent(self, agent: Agent):
         print('Generation 0:')
         self.board.render()
         time.sleep(1)
+        # preserving initial board
+        init_board = self.board.copy()
         print('Generation 0 after agent move:')
         self.board = agent.alter_board(board=self.board)
         self.board.render()
@@ -70,6 +76,8 @@ class Game:
         # return and print the final score (number of live cells after play_time)
         score = len(self.board.liveCells)
         print('Number of live cells after', self.play_time, 'generations :', score)
+        # resetting board
+        self.board = init_board
         return score
 
 
