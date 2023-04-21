@@ -3,10 +3,23 @@ class Board:
     insert comment
     """
 
-    def __init__(self, width=5, height=5, live_cells=[]):
+    def __init__(self, width=5, height=5, live_cells=None):
+        if live_cells is None:
+            live_cells = set()
         self.width = width
         self.height = height
         self.liveCells = live_cells
+
+    def __eq__(self, other):
+        """Overrides the default implementation"""
+        if isinstance(other, Board):
+            if self.liveCells == other.liveCells:
+                return self.width == other.width and self.height == other.height
+        return False
+
+    def __hash__(self):
+        # hash(custom_object)
+        return hash(str(self.liveCells))
 
     def is_live(self, posn):
         return posn in self.liveCells
@@ -26,7 +39,7 @@ class Board:
         if posn in self.liveCells:
             raise Exception('Cannot revive cell that is already alive.')
         else:
-            self.liveCells.append(posn)
+            self.liveCells.add(posn)
 
     def get_live_neighbors(self, posn):
         neighbors = [(posn[0] - 1, posn[1]),

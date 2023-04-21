@@ -11,7 +11,7 @@ class Game:
 
     def produce_next_gen(self):
         # creates a new board for the next generation
-        next_board = Board(self.board.width, self.board.height, [])
+        next_board = Board(self.board.width, self.board.height)
         # iterating over each cell of the current generation
         for row in range(0, self.board.height):
             for col in range(0, self.board.width):
@@ -28,20 +28,22 @@ class Game:
         self.board = next_board
         return next_board
 
-    def play_without_agent(self):
+    def play_without_agent(self, with_sleeps=True, with_rendering=True):
         """This function could be useful for evaluating agent performance in elongating life in comparison."""
-
-        print('Generation 0:')
-        self.board.render()
+        if with_rendering:
+            print('Generation 0:')
+            self.board.render()
         # preserving initial board
         init_board = self.board.copy()
 
         # alter the board with each tick as a new generation
         for tick in range(0, self.play_time):
             self.produce_next_gen()
-            print('Generation', tick + 1, ':')
-            self.board.render()
-            time.sleep(1)
+            if with_rendering:
+                print('Generation', tick + 1, ':')
+                self.board.render()
+            if with_sleeps:
+                time.sleep(1)
 
         # return and print the final score (number of live cells after play_time)
         score = len(self.board.liveCells)
