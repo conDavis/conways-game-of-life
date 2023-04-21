@@ -15,7 +15,7 @@ header.append('num_alive')
 header.append('ideal_neighbors_heuristic')
 header.append('max_neighbors_heuristic')
 header.append('min_neighbors_heuristic')
-header.append('is_infinite')
+header.append('life_span_class') ## add comment here explaining the classes
 
 ## all possible posns -- created so that we can randomly choose from this bag
 posns = []
@@ -37,7 +37,7 @@ for board_index in range(30000):
 print('num boards', len(boards))
 
 
-with open('bin_training_data.csv', 'w', encoding='UTF8', newline='') as f:
+with open('tern_training_data.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
     # write the header
     writer.writerow(header)
@@ -49,13 +49,18 @@ with open('bin_training_data.csv', 'w', encoding='UTF8', newline='') as f:
             for y in range(5):
                 row.append(board.is_live((x, y)))
         # play the board
-        result = Game(board, 50).play_without_agent(False, False)
-        is_infinite = result > 0
+        life_span_length = 0
+        result_for_10_gen = Game(board, 10).play_without_agent(False, False)
+        if result_for_10_gen > 0:
+            life_span_length = 1
+        result_for_50_gen = Game(board, 50).play_without_agent(False, False)
+        if result_for_50_gen > 0:
+            life_span_length = 2
         # append board features and heuristic values
         row.append(len(board.liveCells))
         row.append(IdealNeighborsHeuristic().evaluate(board))
         row.append(MaxNeighborsHeuristic().evaluate(board))
         row.append(MinNeighborsHeuristic().evaluate(board))
-        row.append(is_infinite)
+        row.append(life_span_length)
         print(row)
         writer.writerow(row)

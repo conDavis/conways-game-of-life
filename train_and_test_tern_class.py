@@ -10,9 +10,9 @@ from sklearn import svm
 
 
 
-MODE = "just_heuristics"
+MODE = "all_data"
 # drop some data depending on the mode (used for testing)
-df = pd.read_csv("bin_training_data.csv")
+df = pd.read_csv("tern_training_data.csv")
 if MODE == "just_heuristics":
     df = df.iloc[:, 25:]
 elif MODE == "just_pos":
@@ -22,8 +22,8 @@ elif MODE == "just_pos":
 print(df)
 
 # Split the data into features (X) and target (y)
-X = df.drop('is_infinite', axis=1)
-y = df['is_infinite']
+X = df.drop('life_span_class', axis=1)
+y = df['life_span_class']
 
 # print the number of rows that do have infinite life -- to understand how balanced the dataset is
 num_infinite = len(list(filter(lambda is_infinite: is_infinite, y)))
@@ -40,8 +40,8 @@ knn.fit(X_train, y_train)
 y_pred = knn.predict(X_test)
 
 accuracy = accuracy_score(y_test, y_pred)
-precision = precision_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred, average='weighted')
+recall = recall_score(y_test, y_pred, average='weighted')
 
 print('KNN: ')
 print("Accuracy:", accuracy)
@@ -63,26 +63,6 @@ print("Recall:", recall)
 # plt.ylabel("Accuracy Score")
 # plt.show()
 
-# -------------------- Linear SVC --------------------
-prob_infinite = (num_infinite / len(y))
-pos_weight = 1 / prob_infinite
-neg_weight = 1 / (1 - prob_infinite)
-
-class_weight = {True: pos_weight, False: neg_weight}
-linear_svc = svm.SVC(kernel='linear', C = 1.0, class_weight=class_weight)
-linear_svc.fit(X_train, y_train)
-
-# testing the linear svc model
-y_pred = linear_svc.predict(X_test)
-
-accuracy = accuracy_score(y_test, y_pred)
-precision = precision_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
-
-print("SVC:")
-print("Accuracy:", accuracy)
-print("Precision:", precision)
-print("Recall:", recall)
 
 # ------------------ Naive Bayes ----------------------
 prob_infinite = (num_infinite / len(y))
@@ -96,10 +76,41 @@ naive_bayes.fit(X_train, y_train)
 y_pred = naive_bayes.predict(X_test)
 
 accuracy = accuracy_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred, average='weighted')
+recall = recall_score(y_test, y_pred, average='weighted')
+
+print('NB: ')
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
+
+
+# -------------------- Linear SVC --------------------
+# num_infinite = len(list(filter(lambda life_span: life_span == 2, y)))
+# print('num infinite', num_infinite)
+# num_medium = len(list(filter(lambda life_span: life_span == 1, y)))
+# num_short = len(list(filter(lambda life_span: life_span == 0, y)))
+#
+# prob_2 = (num_infinite / len(y))
+# life_span_2_weight = 1 / prob_2
+# prob_1 = (num_infinite / len(y))
+# life_span_1_weight = 1 / prob_1
+# prob_0 = (num_infinite / len(y))
+# life_span_0_weight = 1 / prob_0
+
+
+#class_weight = {0: life_span_0_weight, 1: life_span_1_weight, 2: life_span_2_weight}
+linear_svc = svm.SVC(kernel='linear', C = 1.0) #class_weight=class_weight)
+linear_svc.fit(X_train, y_train)
+
+# testing the linear svc model
+y_pred = linear_svc.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
 precision = precision_score(y_test, y_pred)
 recall = recall_score(y_test, y_pred)
 
-print('NB: ')
+print("SVC:")
 print("Accuracy:", accuracy)
 print("Precision:", precision)
 print("Recall:", recall)
