@@ -13,7 +13,6 @@ from sklearn import svm
 MODE = "just_heuristics"
 # drop some data depending on the mode (used for testing)
 df = pd.read_csv("bin_training_data.csv")
-df.drop('min_neighbors_heuristic', axis=1)
 if MODE == "just_heuristics":
     df = df.iloc[:, 25:]
 elif MODE == "just_pos":
@@ -34,7 +33,7 @@ print('num infinite', num_infinite)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
 
 # -------------------- KNN --------------------
-knn = KNeighborsClassifier(n_neighbors=17)
+knn = KNeighborsClassifier(n_neighbors=12)
 knn.fit(X_train, y_train)
 
 # testing the knn neighbors model
@@ -54,9 +53,6 @@ print("Recall:", recall)
 # k_values = [i for i in range (1,31)]
 # scores = []
 #
-# scaler = StandardScaler()
-# X = scaler.fit_transform(X)
-#
 # for k in k_values:
 #     knn = KNeighborsClassifier(n_neighbors=k)
 #     score = cross_val_score(knn, X, y, cv=5)
@@ -66,6 +62,8 @@ print("Recall:", recall)
 # plt.xlabel("K Values")
 # plt.ylabel("Accuracy Score")
 # plt.show()
+
+
 
 # -------------------- Linear SVC --------------------
 prob_infinite = (num_infinite / len(y))
