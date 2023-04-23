@@ -17,7 +17,7 @@ header.append('max_neighbors_heuristic')
 header.append('min_neighbors_heuristic')
 header.append('is_infinite')
 
-## all possible posns -- created so that we can randomly choose from this bag
+# all possible posns -- created so that we can randomly choose from this bag
 posns = []
 for x in range(5):
     for y in range(5):
@@ -26,7 +26,7 @@ posns = np.array(posns)
 inds = list(range(5*5))
 
 boards = set()
-for board_index in range(30000):
+while len(boards) < 40000:
     num_live = random.randint(0, len(inds))
     selected_inds = np.random.choice(inds, num_live, False)
     selected_posns = []
@@ -37,7 +37,7 @@ for board_index in range(30000):
 print('num boards', len(boards))
 
 
-with open('bin_training_data.csv', 'w', encoding='UTF8', newline='') as f:
+with open('bin_class_training_data.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
     # write the header
     writer.writerow(header)
@@ -52,7 +52,7 @@ with open('bin_training_data.csv', 'w', encoding='UTF8', newline='') as f:
         result = Game(board, 50).play_without_agent(False, False)
         is_infinite = result > 0
         # append board features and heuristic values
-        row.append(len(board.liveCells))
+        row.append(len(board.live_cells))
         row.append(IdealNeighborsHeuristic().evaluate(board))
         row.append(MaxNeighborsHeuristic().evaluate(board))
         row.append(MinNeighborsHeuristic().evaluate(board))

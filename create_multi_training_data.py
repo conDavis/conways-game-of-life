@@ -15,18 +15,24 @@ header.append('num_alive')
 header.append('ideal_neighbors_heuristic')
 header.append('max_neighbors_heuristic')
 header.append('min_neighbors_heuristic')
-header.append('life_span_class') ## add comment here explaining the classes
+header.append('life_span_class')
 
-## all possible posns -- created so that we can randomly choose from this bag
+# -------------------------- life span class values explained ----------------------------
+#  0 - short life span - does not sustain any life past 10 generations.
+#  1 - medium life span - sustains life more than 10 generations, but less than 50 generations.
+#  2 - infinite life span - sustains life infinitely (we use 50 generations to test this).
+# ----------------------------------------------------------------------------------------
+
+# all possible posns -- created so that we can randomly choose from this bag
 posns = []
 for x in range(5):
     for y in range(5):
         posns.append((x, y))
 posns = np.array(posns)
-inds = list(range(5*5))
+inds = list(range(5 * 5))
 
 boards = set()
-for board_index in range(50000):
+while len(boards) < 40000:
     num_live = random.randint(0, len(inds))
     selected_inds = np.random.choice(inds, num_live, False)
     selected_posns = []
@@ -36,8 +42,7 @@ for board_index in range(50000):
 
 print('num boards', len(boards))
 
-
-with open('tern_training_data.csv', 'w', encoding='UTF8', newline='') as f:
+with open('multi_class_training_data.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
     # write the header
     writer.writerow(header)
