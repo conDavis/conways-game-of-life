@@ -1,7 +1,4 @@
-import numpy as np
 import pandas as pd
-import seaborn as sns
-from matplotlib import pyplot as plt
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.naive_bayes import BernoulliNB
@@ -86,17 +83,17 @@ print("Recall:", recall)
 
 
 # -------------------- Linear SVC --------------------
-# num_infinite = len(list(filter(lambda life_span: life_span == 2, y)))
-# print('num infinite', num_infinite)
-# num_medium = len(list(filter(lambda life_span: life_span == 1, y)))
-# num_short = len(list(filter(lambda life_span: life_span == 0, y)))
-#
-# prob_2 = (num_infinite / len(y))
-# life_span_2_weight = 1 / prob_2
-# prob_1 = (num_infinite / len(y))
-# life_span_1_weight = 1 / prob_1
-# prob_0 = (num_infinite / len(y))
-# life_span_0_weight = 1 / prob_0
+num_infinite = len(list(filter(lambda life_span: life_span == 2, y)))
+print('num infinite', num_infinite)
+num_medium = len(list(filter(lambda life_span: life_span == 1, y)))
+num_short = len(list(filter(lambda life_span: life_span == 0, y)))
+
+prob_2 = (num_infinite / len(y))
+life_span_2_weight = 1 / prob_2
+prob_1 = (num_infinite / len(y))
+life_span_1_weight = 1 / prob_1
+prob_0 = (num_infinite / len(y))
+life_span_0_weight = 1 / prob_0
 
 
 #class_weight = {0: life_span_0_weight, 1: life_span_1_weight, 2: life_span_2_weight}

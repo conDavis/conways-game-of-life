@@ -26,7 +26,7 @@ posns = np.array(posns)
 inds = list(range(5*5))
 
 boards = set()
-for board_index in range(30000):
+for board_index in range(50000):
     num_live = random.randint(0, len(inds))
     selected_inds = np.random.choice(inds, num_live, False)
     selected_posns = []
@@ -57,7 +57,7 @@ with open('tern_training_data.csv', 'w', encoding='UTF8', newline='') as f:
         if result_for_50_gen > 0:
             life_span_length = 2
         # append board features and heuristic values
-        row.append(len(board.liveCells))
+        row.append(len(board.live_cells))
         row.append(IdealNeighborsHeuristic().evaluate(board))
         row.append(MaxNeighborsHeuristic().evaluate(board))
         row.append(MinNeighborsHeuristic().evaluate(board))
