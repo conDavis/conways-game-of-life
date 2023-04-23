@@ -1,10 +1,16 @@
 import time
 from agents import Agent
 from board import Board
+
+
 class Game:
     """
-    insert comment
+    Represent an instance of Conway's Game of Life.
+    Produces a generation once every tick in play_time and alters this game's board accordingly.
+    Playable with interference from an agent, meaning after every generation (excluding the last)
+    an agent is allowed to alter one cell of this game's board.
     """
+
     def __init__(self, board: Board, play_time=20):
         self.board = board
         self.play_time = play_time
@@ -46,41 +52,46 @@ class Game:
                 time.sleep(1)
 
         # return and print the final score (number of live cells after play_time)
-        score = len(self.board.liveCells)
+        score = len(self.board.live_cells)
         print('Number of live cells after', self.play_time, 'generations :', score)
         self.board = init_board
         return score
 
-    def play_with_agent(self, agent: Agent):
-        print('Generation 0:')
-        self.board.render()
-        time.sleep(1)
-        # preserving initial board
-        init_board = self.board.copy()
-        print('Generation 0 after agent move:')
+    def play_with_agent(self, agent: Agent, with_sleeps=True, with_rendering=True):
+        if with_rendering:
+            print('Generation 0:')
+            self.board.render()
+        if with_sleeps:
+            time.sleep(1)
+        init_board = self.board.copy()  # preserving initial board
         self.board = agent.alter_board(board=self.board)
-        self.board.render()
-        time.sleep(1)
+        if with_rendering:
+            print('Generation 0 after agent move:')
+            self.board.render()
+        if with_sleeps:
+            time.sleep(1)
 
         # produce a new generation and allow the agent to alter the board for each tick
         for tick in range(0, self.play_time):
             self.produce_next_gen()
-            print('Generation', tick + 1, ':')
-            self.board.render()
-            time.sleep(1)
-            # if this is not the last generation
-            if tick != self.play_time - 1:
-                print('Generation', tick + 1, 'after agent move:')
-                self.board = agent.alter_board(board=self.board)
+            if with_rendering:
+                print('Generation', tick + 1, ':')
                 self.board.render()
+            if with_sleeps:
                 time.sleep(1)
 
+            # if this is not the last generation allow the agent to alter the board before the next
+            if tick != self.play_time - 1:
+                self.board = agent.alter_board(board=self.board)
+                if with_rendering:
+                    print('Generation', tick + 1, 'after agent move:')
+                    self.board.render()
+                if with_sleeps:
+                    time.sleep(1)
+
         # return and print the final score (number of live cells after play_time)
-        score = len(self.board.liveCells)
+        score = len(self.board.live_cells)
         print('Number of live cells after', self.play_time, 'generations :', score)
         # resetting board
         self.board = init_board
         return score
-
-
-
