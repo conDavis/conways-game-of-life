@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="df4eaa04-c960-4ca5-a86c-2e0d1230b967" name="Changes" comment="adding support for board comparison and live cell uniqueness">
-      <change afterPath="$PROJECT_DIR$/train_and_test_tern_class.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/create_bin_training_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/create_bin_training_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_and_test_bin_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_and_test_bin_class.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/create_multi_training_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/create_multi_training_data.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

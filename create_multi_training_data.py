@@ -3,7 +3,7 @@ import random
 import numpy as np
 from board import Board
 from game import Game
-from heuristic import IdealNeighborsHeuristic, MaxNeighborsHeuristic, MinNeighborsHeuristic
+from heuristics import IdealNeighborsHeuristic, MaxNeighborsHeuristic, MinNeighborsHeuristic
 
 header = []
 # adding life at features for each posn
