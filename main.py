@@ -1,7 +1,7 @@
 from game import Board
 from game import Game
 from agents import SimpleAgent
-from heuristic import RandomHeuristic, MaxNeighborsHeuristic, MinNeighborsHeuristic, IdealNeighborsHeuristic
+from heuristics import RandomHeuristic, MaxNeighborsHeuristic, MinNeighborsHeuristic, IdealNeighborsHeuristic
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':

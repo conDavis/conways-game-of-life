@@ -53,7 +53,8 @@ class Game:
 
         # return and print the final score (number of live cells after play_time)
         score = len(self.board.live_cells)
-        print('Number of live cells after', self.play_time, 'generations :', score)
+        if with_rendering:
+            print('Number of live cells after', self.play_time, 'generations :', score)
         self.board = init_board
         return score
 
@@ -91,7 +92,8 @@ class Game:
 
         # return and print the final score (number of live cells after play_time)
         score = len(self.board.live_cells)
-        print('Number of live cells after', self.play_time, 'generations :', score)
+        if with_rendering:
+            print('Number of live cells after', self.play_time, 'generations :', score)
         # resetting board
         self.board = init_board
         return score
