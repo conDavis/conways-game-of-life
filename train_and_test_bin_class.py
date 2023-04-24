@@ -8,14 +8,12 @@ from sklearn.naive_bayes import BernoulliNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import svm
 
-
-
 MODE = "just_heuristics"
 # drop some data depending on the mode (used for testing)
-df = pd.read_csv("bin_training_data.csv")
+df = pd.read_csv("bin_class_training_data.csv")
 if MODE == "just_heuristics":
     df = df.iloc[:, 25:]
-elif MODE == "just_pos":
+elif MODE == "just_cells":
     df = df.drop('ideal_neighbors_heuristic', axis=1)
     df = df.drop('max_neighbors_heuristic', axis=1)
     df = df.drop('min_neighbors_heuristic', axis=1)
@@ -33,7 +31,7 @@ print('num infinite', num_infinite)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
 
 # -------------------- KNN --------------------
-knn = KNeighborsClassifier(n_neighbors=12)
+knn = KNeighborsClassifier(n_neighbors=26)
 knn.fit(X_train, y_train)
 
 # testing the knn neighbors model
@@ -43,23 +41,23 @@ accuracy = accuracy_score(y_test, y_pred)
 precision = precision_score(y_test, y_pred)
 recall = recall_score(y_test, y_pred)
 
-print('KNN: ')
-print("Accuracy:", accuracy)
-print("Precision:", precision)
-print("Recall:", recall)
+print('\nKNN: ')
+print('Accuracy:', accuracy)
+print('Precision:', precision)
+print('Recall:', recall)
 
 # finding the best k value
 
-# k_values = [i for i in range (1,31)]
-# scores = []
+# k_values = [i for i in range(1, 31)]
+# accuracy_scores = []
 #
 # for k in k_values:
 #     knn = KNeighborsClassifier(n_neighbors=k)
 #     score = cross_val_score(knn, X, y, cv=5)
-#     scores.append(np.mean(score))
+#     accuracy_scores.append(np.mean(score))
 #
-# sns.lineplot(x = k_values, y = scores, marker = 'o')
-# plt.xlabel("K Values")
+# sns.lineplot(x=k_values, y=accuracy_scores, marker='o', hue='')
+# plt.xlabel("K Value")
 # plt.ylabel("Accuracy Score")
 # plt.show()
 
@@ -69,7 +67,7 @@ pos_weight = 1 / prob_infinite
 neg_weight = 1 / (1 - prob_infinite)
 
 class_weight = {True: pos_weight, False: neg_weight}
-linear_svc = svm.SVC(kernel='linear', C = 1.0, class_weight=class_weight)
+linear_svc = svm.LinearSVC(C=1.0, class_weight=class_weight)
 linear_svc.fit(X_train, y_train)
 
 # testing the linear svc model
@@ -79,10 +77,10 @@ accuracy = accuracy_score(y_test, y_pred)
 precision = precision_score(y_test, y_pred)
 recall = recall_score(y_test, y_pred)
 
-print("SVC:")
-print("Accuracy:", accuracy)
-print("Precision:", precision)
-print("Recall:", recall)
+print('\nSVC:')
+print('Accuracy:', accuracy)
+print('Precision:', precision)
+print('Recall:', recall)
 
 # ------------------ Naive Bayes ----------------------
 prob_infinite = (num_infinite / len(y))
@@ -99,7 +97,7 @@ accuracy = accuracy_score(y_test, y_pred)
 precision = precision_score(y_test, y_pred)
 recall = recall_score(y_test, y_pred)
 
-print('NB: ')
-print("Accuracy:", accuracy)
-print("Precision:", precision)
-print("Recall:", recall)
+print('\nNB: ')
+print('Accuracy:', accuracy)
+print('Precision:', precision)
+print('Recall:', recall)

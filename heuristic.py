@@ -30,7 +30,8 @@ class MinNeighborsHeuristic(Heuristic):
         for x in range(board.width):
             for y in range(board.height):
                 total_neighbors += len(board.get_live_neighbors((x, y)))
-        return 1/total_neighbors if total_neighbors > 0 else 0
+        return 1 / total_neighbors if total_neighbors > 0 else 0
+
 
 class IdealNeighborsHeuristic(Heuristic):
     def evaluate(self, board: Board):

@@ -26,6 +26,7 @@ posns = np.array(posns)
 inds = list(range(5*5))
 
 boards = set()
+print('Generating random board configurations ...')
 while len(boards) < 40000:
     num_live = random.randint(0, len(inds))
     selected_inds = np.random.choice(inds, num_live, False)
@@ -34,7 +35,7 @@ while len(boards) < 40000:
         selected_posns.append(tuple(posns[selected]))
     boards.add(Board(5, 5, set(selected_posns)))
 
-print('num boards', len(boards))
+print('Boards generated:', len(boards))
 
 
 with open('bin_class_training_data.csv', 'w', encoding='UTF8', newline='') as f:
@@ -42,6 +43,7 @@ with open('bin_class_training_data.csv', 'w', encoding='UTF8', newline='') as f:
     # write the header
     writer.writerow(header)
     # write the data, one row for each board
+    print('Evaluating board configurations and writing results to CSV ...')
     for board in boards:
         row = []
         # add whether each cell is alive to the row
@@ -57,5 +59,6 @@ with open('bin_class_training_data.csv', 'w', encoding='UTF8', newline='') as f:
         row.append(MaxNeighborsHeuristic().evaluate(board))
         row.append(MinNeighborsHeuristic().evaluate(board))
         row.append(is_infinite)
-        print(row)
         writer.writerow(row)
+
+    print('Done!')
