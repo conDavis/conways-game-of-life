@@ -6,10 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="df4eaa04-c960-4ca5-a86c-2e0d1230b967" name="Changes" comment="adding support for board comparison and live cell uniqueness">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluate_heuristics.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluate_heuristics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/multi_class_training_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/multi_class_training_data.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_and_test_multi_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_and_test_multi_class.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_agent_informed_by_classifier.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_agent_informed_by_classifier.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
