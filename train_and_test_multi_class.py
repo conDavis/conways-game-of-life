@@ -1,13 +1,14 @@
 import pandas as pd
-import seaborn as sns
-import numpy as np
-from matplotlib import pyplot as plt
+import pickle
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.naive_bayes import BernoulliNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import svm
-
+# -- used for k value optimization tests --
+# import seaborn as sns
+# import numpy as np
+# from matplotlib import pyplot as plt
 
 MODE = "all_data"
 # drop some data depending on the mode (used for testing)
@@ -24,9 +25,13 @@ print(df)
 X = df.drop('life_span_class', axis=1)
 y = df['life_span_class']
 
-# print the number of rows that do have infinite life -- to understand how balanced the dataset is
-num_infinite = len(list(filter(lambda is_infinite: is_infinite, y)))
+# print the number of rows of each lifespan - to understand how balanced the dataset is:
+num_infinite = len(list(filter(lambda life_span: life_span == 2, y)))
 print('num infinite', num_infinite)
+num_medium = len(list(filter(lambda life_span: life_span == 1, y)))
+print('num medium: ', num_medium)
+num_short = len(list(filter(lambda life_span: life_span == 0, y)))
+print('num short: ', num_short)
 
 # Split the data into training and test sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
@@ -48,7 +53,6 @@ print('Precision:', precision)
 print('Recall:', recall)
 
 # finding the best k value
-
 # k_values = [i for i in range (1,31)]
 # scores = []
 #
@@ -61,6 +65,10 @@ print('Recall:', recall)
 # plt.xlabel("K Value")
 # plt.ylabel("Accuracy Score")
 # plt.show()
+
+# pickling our trained classifier for use by our agent later:
+with open('trained_multi_class_classifier.pkl', 'wb') as f:
+    pickle.dump(knn, f)
 
 
 # ------------------ Naive Bayes ----------------------

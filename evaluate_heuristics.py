@@ -66,6 +66,7 @@ perc_infinite_configs_killed_after_20_gens = []
 perc_infinite_configs_killed_after_50_gens = []
 
 print('\nEvaluating heuristic performance on 10,000 randomly generated board configurations:')
+print('Total number of infinite life sustaining boards in our sample', num_infinite_rows)
 for heuristic in heuristics:
     evaluate_heuristic(heuristic)
 
@@ -80,14 +81,14 @@ graph_df['perc_infinite_configs_killed_after_50_gens'] = perc_infinite_configs_k
 
 # bar plot comparing agent play effects after 20 generations
 ax = sns.barplot(data=graph_df, x="heuristic", y="effect_on_score_after_20_gens")
-ax.set(xlabel='Heuristic', ylabel='Average Effect on Score After 20 Generations', yticks=np.arange(-10, 12, step=2))
+ax.set(xlabel='Heuristic', ylabel='Average Effect on Score at 20 Generations', yticks=np.arange(-10, 12, step=2))
 ax.axhline(0)
 ax.set(title='Analysis of Agent Play Using Heuristics over 10,000 Board Configs')
 plt.show()
 
 # bar plot comparing agent play effects after 50 generations
 ax = sns.barplot(data=graph_df, x="heuristic", y="effect_on_score_after_50_gens")
-ax.set(xlabel='Heuristic', ylabel='Average Effect on Score After 50 Generations', yticks=np.arange(-10, 12, step=2))
+ax.set(xlabel='Heuristic', ylabel='Average Effect on Score at 50 Generations', yticks=np.arange(-10, 12, step=2))
 ax.axhline(0)
 ax.set(title='Analysis of Agent Play Using Heuristics over 10,000 Board Configs')
 plt.show()
@@ -95,7 +96,7 @@ plt.show()
 # bar plot comparing agent play effects on "naturally" infinite configurations after 20 generations
 graph_df['perc_infinite_configs_killed_after_20_gens'] = graph_df['perc_infinite_configs_killed_after_20_gens'] * 100
 ax = sns.barplot(data=graph_df, x="heuristic", y="perc_infinite_configs_killed_after_20_gens")
-ax.set(xlabel='Heuristic', ylabel='Infinite Life Sustaining Boards Killed After 20 Generations',
+ax.set(xlabel='Heuristic', ylabel='Infinite Life Sustaining Boards Killed in 20 Generations',
        yticks=np.arange(0, 110, step=10))
 ax.set(title='Analysis of Agent Play Using Heuristics on Infinite Life Sustaining Boards')
 ax.yaxis.set_major_formatter(mtick.PercentFormatter())
@@ -104,7 +105,7 @@ plt.show()
 # bar plot comparing agent play effects on "naturally" infinite configurations after 50 generations
 graph_df['perc_infinite_configs_killed_after_50_gens'] = graph_df['perc_infinite_configs_killed_after_50_gens'] * 100
 ax = sns.barplot(data=graph_df, x="heuristic", y="perc_infinite_configs_killed_after_50_gens")
-ax.set(xlabel='Heuristic', ylabel='Infinite Life Sustaining Boards Killed After 50 Generations',
+ax.set(xlabel='Heuristic', ylabel='Infinite Life Sustaining Boards Killed in 50 Generations',
        yticks=np.arange(0, 110, step=10))
 ax.set(title='Analysis of Agent Play Using Heuristics on Infinite Life Sustaining Boards')
 ax.yaxis.set_major_formatter(mtick.PercentFormatter())
